@@ -126,7 +126,7 @@ import { useThemeSwitcher } from "react-css-theme-switcher";
 import { Switch, Input } from "antd";
 
 export default function App() {
-  const [isDarkMode, setIsDarkMode] = React.useState();
+  const [isDarkState, setIsDarkMode] = React.useState();
   const { switcher, currentTheme, status, themes } = useThemeSwitcher();
 
   const toggleTheme = (isChecked) => {
@@ -142,7 +142,7 @@ export default function App() {
   return (
     <div className="main fade-in">
       <h1>The current theme is: {currentTheme}</h1>
-      <Switch checked={isDarkMode} onChange={toggleTheme} />
+      <Switch checked={isDarkState} onChange={toggleTheme} />
 
       <Input
         style={{ width: 300, marginTop: 30 }}

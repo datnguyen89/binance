@@ -1,36 +1,49 @@
-import { useState } from 'react'
+import React from 'react'
+// region Styling
 import './App.less'
-import { Button } from 'antd'
-import { useThemeSwitcher } from 'react-css-theme-switcher'
-import { Switch, Input } from 'antd'
+import ThemeProvider from './provider/ThemeProvider'
+// endregion
+// region recoil
+import {
+  RecoilRoot,
+} from 'recoil'
+// endregion
 
-function App() {
-  const [isDarkMode, setIsDarkMode] = useState()
-  const { switcher, currentTheme, status, themes } = useThemeSwitcher()
+// region Router
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+} from 'react-router-dom'
 
-  const toggleTheme = (isChecked) => {
-    setIsDarkMode(isChecked)
-    switcher({ theme: isChecked ? themes.dark : themes.light })
-  }
-  // Avoid theme change flicker
-  if (status === 'loading') {
-    return null
-  }
+// endregion
+// region Pages
+import { PAGES } from './constant'
+import HomePage from './pages/HomePage'
+import NotFoundPage from './pages/NotFoundPage'
+import LoginPage from './pages/LoginPage'
+import ProtectedLayout from './Layouts/ProtectedLayout'
+import AuthenticationLayout from './Layouts/AuthenticationLayout'
+// endregion
+
+
+const App = () => {
   return (
-    <div>
-      <h1>The current theme is: {currentTheme}</h1>
-      <Switch checked={isDarkMode} onChange={toggleTheme} />
-      <br />
-      <Input
-        style={{ width: 300, marginTop: 30 }}
-        placeholder='I will change with the theme!'
-      />
-      <br />
-      <Button  type={'primary'}>PRIMARY</Button>
-      <Button disabled type={'primary'}>PRIMARY</Button>
-      <Button type={'default'}>PRIMARY</Button>
-
-    </div>
+    <RecoilRoot>
+      <ThemeProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route element={<AuthenticationLayout />}>
+              <Route path={PAGES.LOGIN} element={<LoginPage />} />
+            </Route>
+            <Route element={<ProtectedLayout />}>
+              <Route path={PAGES.HOME} element={<HomePage />} />
+            </Route>
+            <Route path='*' element={<NotFoundPage />} />
+          </Routes>
+        </BrowserRouter>
+      </ThemeProvider>
+    </RecoilRoot>
   )
 }
 
