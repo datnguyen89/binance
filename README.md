@@ -29,42 +29,158 @@ Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `yarn eject`
+## Change Between Light and Dark Themes
+### Getting AntD Stylesheets
+```
+// light-theme.less
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+@import '~antd/lib/style/color/colorPalette.less';
+@import '~antd/dist/antd.less';
+@import '~antd/lib/style/themes/default.less';
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+// These are shared variables that can be extracted to their own file
+@primary-color: #00adb5;
+@border-radius-base: 4px;
+```
+```
+// dark-theme.less
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+@import '~antd/lib/style/color/colorPalette.less';
+@import '~antd/dist/antd.less';
+@import '~antd/lib/style/themes/dark.less';
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+@primary-color: #00adb5;
+@border-radius-base: 4px;
+```
+### Compiling Less Files With Gulp
 
-## Learn More
+```
+yarn add -D gulp gulp-less gulp-postcss gulp-debug gulp-csso autoprefixer less-plugin-npm-import
+```
+### Create a gulpfile.js
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```
+const gulp = require('gulp')
+const gulpless = require('gulp-less')
+const postcss = require('gulp-postcss')
+const debug = require('gulp-debug')
+var csso = require('gulp-csso')
+const autoprefixer = require('autoprefixer')
+const NpmImportPlugin = require('less-plugin-npm-import')
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+gulp.task('less', function () {
+  const plugins = [autoprefixer()]
 
-### Code Splitting
+  return gulp
+    .src('src/themes/*-theme.less')
+    .pipe(debug({title: 'Less files:'}))
+    .pipe(
+      gulpless({
+        javascriptEnabled: true,
+        plugins: [new NpmImportPlugin({prefix: '~'})],
+      }),
+    )
+    .pipe(postcss(plugins))
+    .pipe(
+      csso({
+        debug: true,
+      }),
+    )
+    .pipe(gulp.dest('./public'))
+})
+```
+### Run `npx gulp less`
+### Changing Between Themes
+```
+yarn add react-css-theme-switcher
+```
+```
+// index.js
+import React from "react";
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+import ReactDOM from "react-dom";
 
-### Analyzing the Bundle Size
+import "./index.css";
+import App from "./App";
+import { ThemeSwitcherProvider } from "react-css-theme-switcher";
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+const themes = {
+  dark: `${process.env.PUBLIC_URL}/dark-theme.css`,
+  light: `${process.env.PUBLIC_URL}/light-theme.css`,
+};
 
-### Making a Progressive Web App
+ReactDOM.render(
+  <React.StrictMode>
+    <ThemeSwitcherProvider themeMap={themes} defaultTheme="light">
+      <App />
+    </ThemeSwitcherProvider>
+  </React.StrictMode>,
+  document.getElementById("root")
+);
+```
+### Use it
+```
+import React from "react";
+import "./App.css";
+import { useThemeSwitcher } from "react-css-theme-switcher";
+import { Switch, Input } from "antd";
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+export default function App() {
+  const [isDarkMode, setIsDarkMode] = React.useState();
+  const { switcher, currentTheme, status, themes } = useThemeSwitcher();
 
-### Advanced Configuration
+  const toggleTheme = (isChecked) => {
+    setIsDarkMode(isChecked);
+    switcher({ theme: isChecked ? themes.dark : themes.light });
+  };
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+  // Avoid theme change flicker
+  if (status === "loading") {
+    return null;
+  }
 
-### Deployment
+  return (
+    <div className="main fade-in">
+      <h1>The current theme is: {currentTheme}</h1>
+      <Switch checked={isDarkMode} onChange={toggleTheme} />
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+      <Input
+        style={{ width: 300, marginTop: 30 }}
+        placeholder="I will change with the theme!"
+      />
+    </div>
+  );
+}
+```
+### CSS Injection Order
+```angular2html
+// index.html
+<!DOCTYPE html>
+<html lang="en">
+    <head>    
+            ...
+        <title>React App</title>
+        <!--styles-insertion-point-->
+    </head>
+    <body>
+    ...
+    </body>
+</html>
+```
+### Finally, on the provider
+```angular2html
+// index.js
 
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+ReactDOM.render(
+  <React.StrictMode>
+    <ThemeSwitcherProvider
+      themeMap={themes}
+      defaultTheme="light"
+      insertionPoint="styles-insertion-point"
+    >
+      <App />
+    </ThemeSwitcherProvider>
+  </React.StrictMode>,
+  document.getElementById("root")
+);
+```
