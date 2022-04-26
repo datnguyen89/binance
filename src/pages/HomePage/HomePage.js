@@ -46,6 +46,8 @@ const HomePage = props => {
 
       <Link to={'#'}>test this link</Link>
       <h1>The current theme is: {currentTheme}</h1>
+      <Switch />
+      <Switch />
       <Switch checked={isDark} onChange={toggleTheme} />
 
       <Input
