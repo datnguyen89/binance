@@ -1,5 +1,4 @@
 const CracoLessPlugin = require('craco-less')
-const resolveUrlLoader = require('craco-resolve-url-loader');
 
 module.exports = {
   plugins: [
@@ -12,9 +11,9 @@ module.exports = {
           },
         },
         modifyLessRule: (lessRule, context) => {
-          lessRule.use = lessRule.use.filter(i => !i.loader.includes('resolve-url-loader'));
-          return lessRule;
-        }
+          lessRule.use = lessRule.use.filter(i => !i.loader.includes('resolve-url-loader'))
+          return lessRule
+        },
       },
     },
   ],

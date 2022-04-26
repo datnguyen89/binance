@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import { useThemeSwitcher } from 'react-css-theme-switcher'
 import { useRecoilState } from 'recoil'
 import { isDarkState } from '../../recoil/commonState'
+import { HomePageWrapper } from './HomePageStyled'
 
 const HomePage = props => {
   // region props, hook, state =================
@@ -51,6 +52,7 @@ const HomePage = props => {
         style={{ width: 300, marginTop: 30 }}
         placeholder='I will change with the theme!'
       />
+      <HomePageWrapper>123312</HomePageWrapper>
     </div>
   )
 }
