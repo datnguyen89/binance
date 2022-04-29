@@ -19,7 +19,6 @@ const HomePage = props => {
   // endregion
   // region function handle logic ==============
   const toggleTheme = (isChecked) => {
-    console.log(isChecked)
     setIsDark(isChecked)
     localStorage.setItem('isDarkState', JSON.stringify(isChecked))
     switcher({ theme: isChecked ? themes.dark : themes.light })

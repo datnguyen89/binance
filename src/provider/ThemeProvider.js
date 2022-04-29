@@ -7,6 +7,7 @@ import { ThemeSwitcherProvider } from 'react-css-theme-switcher'
 import { useRecoilValue } from 'recoil'
 import { isDarkState } from '../recoil/commonState'
 
+
 const themes = {
   dark: `${process.env.PUBLIC_URL}/dark-theme.css`,
   light: `${process.env.PUBLIC_URL}/light-theme.css`,
@@ -23,7 +24,6 @@ const ThemeProvider = props => {
     >
       <ThemeSwitcherProvider
         themeMap={themes}
-        insertionPoint='styles-insertion-point'
         defaultTheme={isDark ? 'dark' : 'light'}>
         {children}
       </ThemeSwitcherProvider>

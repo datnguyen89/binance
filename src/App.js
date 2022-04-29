@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 // region Styling
 import './App.less'
 import ThemeProvider from './provider/ThemeProvider'
@@ -25,9 +25,14 @@ import LoginPage from './pages/LoginPage'
 import ProtectedLayout from './Layouts/ProtectedLayout'
 import AuthenticationLayout from './Layouts/AuthenticationLayout'
 // endregion
-
+import config from './config'
 
 const App = () => {
+
+  useEffect(() => {
+    console.log(config)
+  }, [])
+
   return (
     <RecoilRoot>
       <ThemeProvider>
