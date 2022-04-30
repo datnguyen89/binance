@@ -1,6 +1,15 @@
-import { atom } from 'recoil'
+import { atom, selector } from 'recoil'
+import { DARK_THEME, LIGHT_THEME } from '../constant'
 
 export const isDarkState = atom({
   key: 'isDarkState',
   default: localStorage.getItem('isDarkState') ? JSON.parse(localStorage.getItem('isDarkState')) : false,
+})
+
+export const appThemeSelector = selector({
+  key: 'appThemeSelector',
+  get: ({ get }) => {
+    const isDark = get(isDarkState)
+    return isDark ? DARK_THEME : LIGHT_THEME
+  },
 })

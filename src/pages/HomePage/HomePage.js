@@ -1,14 +1,16 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Button, DatePicker, Input, Pagination, Switch, Tag } from 'antd'
 import { Link } from 'react-router-dom'
 import { useThemeSwitcher } from 'react-css-theme-switcher'
-import { useRecoilState } from 'recoil'
-import { isDarkState } from '../../recoil/commonState'
+import { useRecoilState, useRecoilValue } from 'recoil'
+import { appThemeSelector, isDarkState } from '../../recoil/commonState'
 import { HomePageWrapper } from './HomePageStyled'
 
 const HomePage = props => {
   // region props, hook, state =================
   const [isDark, setIsDark] = useRecoilState(isDarkState)
+  const appTheme = useRecoilValue(appThemeSelector)
+
   const { switcher, currentTheme, themes } = useThemeSwitcher()
   // endregion
   // region destructuring ======================
@@ -28,7 +30,9 @@ const HomePage = props => {
 
   // endregion
   // region side effect ========================
-
+  useEffect(() => {
+    console.log('is dark:', isDark)
+  }, [isDark])
   // endregion
 
   return (
@@ -54,6 +58,9 @@ const HomePage = props => {
         placeholder='I will change with the theme!'
       />
       <HomePageWrapper>123312</HomePageWrapper>
+      <div>
+        {JSON.stringify(appTheme)}
+      </div>
     </div>
   )
 }
