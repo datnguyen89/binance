@@ -1,20 +1,13 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 // region Styling
 import './App.less'
 import ThemeProvider from './provider/ThemeProvider'
 // endregion
 // region recoil
-import {
-  RecoilRoot,
-} from 'recoil'
+import { RecoilRoot } from 'recoil'
 // endregion
-
 // region Router
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-} from 'react-router-dom'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 
 // endregion
 // region Pages
@@ -24,15 +17,10 @@ import NotFoundPage from './pages/NotFoundPage'
 import LoginPage from './pages/LoginPage'
 import ProtectedLayout from './Layouts/ProtectedLayout'
 import AuthenticationLayout from './Layouts/AuthenticationLayout'
+import TestPage from './pages/TestPage'
+
 // endregion
-import config from './config'
-
 const App = () => {
-
-  useEffect(() => {
-    console.log(config)
-  }, [])
-
   return (
     <RecoilRoot>
       <ThemeProvider>
@@ -43,6 +31,8 @@ const App = () => {
             </Route>
             <Route element={<ProtectedLayout />}>
               <Route path={PAGES.HOME} element={<HomePage />} />
+              <Route path={PAGES.TEST} element={<TestPage />} />
+
             </Route>
             <Route path='*' element={<NotFoundPage />} />
           </Routes>

@@ -2,7 +2,8 @@
 // region Website config
 export const PAGES = {
   HOME: '/',
-  LOGIN: 'login',
+  LOGIN: '/login',
+  TEST:'/test'
 }
 
 // endregion
