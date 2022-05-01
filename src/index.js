@@ -4,10 +4,12 @@ import App from './App'
 import reportWebVitals from './reportWebVitals'
 // region recoil
 import { RecoilRoot } from 'recoil'
+import RecoilNexus from 'recoil-nexus'
 // endregion
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
   <RecoilRoot>
+    <RecoilNexus />
     <App />
   </RecoilRoot>,
 )

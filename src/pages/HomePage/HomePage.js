@@ -5,6 +5,8 @@ import { useThemeSwitcher } from 'react-css-theme-switcher'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import { appThemeSelector, isDarkState } from '../../recoil/commonState'
 import { HomePageWrapper } from './HomePageStyled'
+import productStore from '../../stores/productStore'
+import ICONS from '../../icons'
 
 const HomePage = props => {
   // region props, hook, state =================
@@ -25,6 +27,24 @@ const HomePage = props => {
     localStorage.setItem('isDarkState', JSON.stringify(isChecked))
     switcher({ theme: isChecked ? themes.dark : themes.light })
   }
+  const getProductList = async () => {
+    try {
+      const params = { _page: 1, _limit: 10 }
+      Promise.all([
+        productStore.getAll(params),
+        productStore.getAll1(params),
+        productStore.getAll2(params),
+      ])
+        .then(([res, res1, res2]) => {
+          console.log('res', res)
+          console.log('res1', res1)
+          console.log('res2', res2)
+        })
+    } catch (error) {
+
+    }
+  }
+
   // endregion
   // region function render ====================
 
@@ -49,10 +69,16 @@ const HomePage = props => {
 
       <Link to={'#'}>test this link</Link>
       <h1>The current theme is: {currentTheme}</h1>
+      <Switch
+        checkedChildren={1}
+        unCheckedChildren={2}
+      />
       <Switch />
-      <Switch />
-      <Switch checked={isDark} onChange={toggleTheme} />
-
+      <Switch
+        checked={isDark}
+        checkedChildren={<img src={ICONS.SUN} alt={''} width={12} height={12} />}
+        unCheckedChildren={<img src={ICONS.MOON} alt={''} width={12} height={12} />}
+        onChange={toggleTheme} />
       <Input
         style={{ width: 300, marginTop: 30 }}
         placeholder='I will change with the theme!'
@@ -61,6 +87,7 @@ const HomePage = props => {
       <div>
         {JSON.stringify(appTheme)}
       </div>
+      <Button onClick={getProductList}>GetList</Button>
     </div>
   )
 }

@@ -13,3 +13,8 @@ export const appThemeSelector = selector({
     return isDark ? DARK_THEME : LIGHT_THEME
   },
 })
+
+export const appLoadingState = atom({
+  key: 'appLoadingState',
+  default: 0,
+})

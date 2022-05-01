@@ -2,8 +2,8 @@ import React from 'react'
 // region Styling
 import './App.less'
 import ThemeProvider from './provider/ThemeProvider'
+import LoadingOverLay from './components/LoadingOverLay'
 // endregion
-
 // region Router
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 // endregion
@@ -15,6 +15,7 @@ import LoginPage from './pages/LoginPage'
 import ProtectedLayout from './layouts/ProtectedLayout'
 import AuthenticationLayout from './layouts/AuthenticationLayout'
 import TestPage from './pages/TestPage'
+
 
 // endregion
 const App = () => {
@@ -32,6 +33,7 @@ const App = () => {
           <Route path='*' element={<NotFoundPage />} />
         </Routes>
       </BrowserRouter>
+      <LoadingOverLay />
     </ThemeProvider>
   )
 }
