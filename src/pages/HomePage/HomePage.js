@@ -1,12 +1,10 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Button, Card, Col, DatePicker, Input, Pagination, Row, Switch, Tag } from 'antd'
 import { Link } from 'react-router-dom'
-import { useThemeSwitcher } from 'react-css-theme-switcher'
-import { useRecoilState, useRecoilValue } from 'recoil'
-import { appThemeSelector, isDarkState } from '../../recoil/commonState'
+import { useRecoilValue } from 'recoil'
+import { appThemeSelector } from '../../recoil/commonState'
 import { HomePageWrapper, TestBoxShadow } from './HomePageStyled'
 import productStore from '../../stores/productStore'
-import ICONS from '../../icons'
 import BorderBox from '../../components/BorderBox'
 
 const HomePage = props => {
@@ -21,20 +19,24 @@ const HomePage = props => {
 
   // endregion
   // region function handle logic ==============
-
-  const getProductList = async () => {
+  const getProductList = () => {
     try {
       const params = { _page: 1, _limit: 10 }
-      Promise.all([
-        productStore.getAll(params),
-        productStore.getAll1(params),
-        productStore.getAll2(params),
-      ])
-        .then(([res, res1, res2]) => {
-          console.log('res', res)
-          console.log('res1', res1)
-          console.log('res2', res2)
+
+      productStore.getAll(params)
+        .then(res => {
+          console.log(res)
         })
+      // Promise.all([
+      //   productStore.getAll(params),
+      //   productStore.getAll1(params),
+      //   productStore.getAll2(params),
+      // ])
+      //   .then(([res, res1, res2]) => {
+      //     console.log('res', res)
+      //     console.log('res1', res1)
+      //     console.log('res2', res2)
+      //   })
     } catch (error) {
 
     }
@@ -45,7 +47,9 @@ const HomePage = props => {
 
   // endregion
   // region side effect ========================
-
+  useEffect(() => {
+    getProductList()
+  }, [])
   // endregion
 
   return (
@@ -83,7 +87,7 @@ const HomePage = props => {
       </BorderBox>
       <Row>
         <Col span={12}>
-          <Card hoverable title="Card title">Card content</Card>
+          <Card hoverable title='Card title'>Card content</Card>
 
         </Col>
       </Row>

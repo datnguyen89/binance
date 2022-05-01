@@ -1,11 +1,12 @@
 import React from 'react'
 import { Outlet } from 'react-router-dom'
-import Sider from 'antd/es/layout/Sider'
 import { Layout } from 'antd'
+import Sider from 'antd/es/layout/Sider'
 import { useThemeSwitcher } from 'react-css-theme-switcher'
 import MainHeader from '../../components/MainHeader'
+import MainSideBar from '../../components/MainSideBar'
 
-const {  Content, Footer } = Layout
+const { Header, Content, Footer } = Layout
 
 const ProtectedLayout = props => {
   // region props, hook, state =================
@@ -29,17 +30,19 @@ const ProtectedLayout = props => {
 
   return (
     <Layout style={{ minHeight: '100vh' }}>
-      <Sider
-        theme={currentTheme}
-        collapsible
-      >
-        Sider
+      <Sider theme={currentTheme} collapsible>
+        <MainSideBar />
       </Sider>
+
       <Layout>
-        <MainHeader />
+        <Header className={'site-layout-background'}>
+          <MainHeader />
+        </Header>
+
         <Content>
           <Outlet />
         </Content>
+
         <Footer>
           Footer
         </Footer>
@@ -48,6 +51,7 @@ const ProtectedLayout = props => {
   )
 }
 
-ProtectedLayout.propTypes = {}
+ProtectedLayout.propTypes =
+  {}
 
 export default ProtectedLayout
