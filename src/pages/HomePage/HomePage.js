@@ -6,6 +6,7 @@ import { appThemeSelector } from '../../recoil/commonState'
 import { HomePageWrapper, TestBoxShadow } from './HomePageStyled'
 import productStore from '../../stores/productStore'
 import BorderBox from '../../components/BorderBox'
+import authStore from '../../stores/authStore'
 
 const HomePage = props => {
   // region props, hook, state =================
@@ -48,7 +49,8 @@ const HomePage = props => {
   // endregion
   // region side effect ========================
   useEffect(() => {
-    getProductList()
+    authStore.getCommonProperty()
+    authStore.getUserProfile()
   }, [])
   // endregion
 

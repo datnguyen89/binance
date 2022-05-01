@@ -4,7 +4,7 @@ import { Button, Result, Space } from 'antd'
 import { useNavigate } from 'react-router-dom'
 
 const NotFoundPage = props => {
-  let navigate = useNavigate();
+  let navigate = useNavigate()
   const handleClickBack = (num) => {
     switch (num) {
       case 1:
