@@ -3,8 +3,9 @@ import { Outlet } from 'react-router-dom'
 import Sider from 'antd/es/layout/Sider'
 import { Layout } from 'antd'
 import { useThemeSwitcher } from 'react-css-theme-switcher'
+import MainHeader from '../../components/MainHeader'
 
-const { Content, Footer, Header } = Layout
+const {  Content, Footer } = Layout
 
 const ProtectedLayout = props => {
   // region props, hook, state =================
@@ -35,11 +36,7 @@ const ProtectedLayout = props => {
         Sider
       </Sider>
       <Layout>
-        <Header
-          className={'site-layout-background'}
-        >
-          Header
-        </Header>
+        <MainHeader />
         <Content>
           <Outlet />
         </Content>
