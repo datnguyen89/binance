@@ -153,7 +153,7 @@ export default function App() {
 }
 ```
 ### CSS Injection Order
-```angular2html
+```
 // index.html
 <!DOCTYPE html>
 <html lang="en">
@@ -168,7 +168,7 @@ export default function App() {
 </html>
 ```
 ### Finally, on the provider
-```angular2html
+```
 // index.js
 
 ReactDOM.render(
@@ -176,11 +176,20 @@ ReactDOM.render(
     <ThemeSwitcherProvider
       themeMap={themes}
       defaultTheme="light"
-      insertionPoint="styles-insertion-point"
     >
       <App />
     </ThemeSwitcherProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );
+```
+
+## State management - Data flow
+```angular2html
+/recoil/*State.js => atom and selector stored
+/stores/*Store.js => functions handler business
+/request.js => config of request axios
+/axiosClient.js => define instance of axios, handle apploading state, interceptor, headers, handle response/error, refresh token
+
+Flow: event/side effect => store => request => axiosClient => response data => update recoil/state
 ```

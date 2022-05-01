@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Button, DatePicker, Input, Pagination, Switch, Tag } from 'antd'
 import { Link } from 'react-router-dom'
 import { useThemeSwitcher } from 'react-css-theme-switcher'
@@ -50,9 +50,7 @@ const HomePage = props => {
 
   // endregion
   // region side effect ========================
-  useEffect(() => {
-    console.log('is dark:', isDark)
-  }, [isDark])
+
   // endregion
 
   return (

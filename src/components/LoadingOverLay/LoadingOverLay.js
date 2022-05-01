@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { LoadingOverLayWrapper } from './LoadingOverLayStyled'
 import { Spin } from 'antd'
 import { useRecoilValue } from 'recoil'
@@ -21,9 +21,7 @@ const LoadingOverLay = props => {
 
   // endregion
   // region side effect ========================
-  useEffect(() => {
-    console.log('appLoadingState', appLoading)
-  }, [appLoading])
+
   // endregion
   return (
     appLoading > 0 &&
