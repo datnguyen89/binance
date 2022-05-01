@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Outlet } from 'react-router-dom'
 import { Layout } from 'antd'
 import Sider from 'antd/es/layout/Sider'
@@ -11,6 +11,8 @@ const { Header, Content, Footer } = Layout
 const ProtectedLayout = props => {
   // region props, hook, state =================
   const { currentTheme } = useThemeSwitcher()
+
+  const [collapse, setCollapse] = useState(false)
   // endregion
   // region destructuring ======================
 
@@ -30,13 +32,19 @@ const ProtectedLayout = props => {
 
   return (
     <Layout style={{ minHeight: '100vh' }}>
-      <Sider theme={currentTheme} collapsible>
+      <Sider
+        theme={currentTheme}
+        collapsed={collapse}
+        onCollapse={(e) => setCollapse(e)}
+        collapsible>
         <MainSideBar />
+        123
       </Sider>
-
       <Layout>
+
         <Header className={'site-layout-background'}>
           <MainHeader />
+          123
         </Header>
 
         <Content>
