@@ -2,12 +2,13 @@ import React from 'react'
 import { Outlet } from 'react-router-dom'
 import Sider from 'antd/es/layout/Sider'
 import { Layout } from 'antd'
-import { Content, Footer, Header } from 'antd/es/layout/layout'
+import { useThemeSwitcher } from 'react-css-theme-switcher'
 
+const { Content, Footer, Header } = Layout
 
 const ProtectedLayout = props => {
   // region props, hook, state =================
-
+  const { currentTheme } = useThemeSwitcher()
   // endregion
   // region destructuring ======================
 
@@ -28,12 +29,15 @@ const ProtectedLayout = props => {
   return (
     <Layout style={{ minHeight: '100vh' }}>
       <Sider
+        theme={currentTheme}
         collapsible
       >
         Sider
       </Sider>
       <Layout>
-        <Header>
+        <Header
+          className={'site-layout-background'}
+        >
           Header
         </Header>
         <Content>
