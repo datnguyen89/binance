@@ -1,7 +1,6 @@
 import React from 'react'
 // region Styling
 import './App.less'
-import ThemeProvider from './provider/ThemeProvider'
 import LoadingOverLay from './components/LoadingOverLay'
 // endregion
 // region Router
@@ -20,7 +19,7 @@ import TestPage from './pages/TestPage'
 // endregion
 const App = () => {
   return (
-    <ThemeProvider>
+    <>
       <BrowserRouter>
         <Routes>
           <Route element={<AuthenticationLayout />}>
@@ -34,7 +33,7 @@ const App = () => {
         </Routes>
       </BrowserRouter>
       <LoadingOverLay />
-    </ThemeProvider>
+    </>
   )
 }
 

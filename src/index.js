@@ -5,12 +5,15 @@ import reportWebVitals from './reportWebVitals'
 // region recoil
 import { RecoilRoot } from 'recoil'
 import RecoilNexus from 'recoil-nexus'
+import ThemeProvider from './provider/ThemeProvider'
 // endregion
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
   <RecoilRoot>
     <RecoilNexus />
-    <App />
+    <ThemeProvider>
+      <App />
+    </ThemeProvider>
   </RecoilRoot>,
 )
 
