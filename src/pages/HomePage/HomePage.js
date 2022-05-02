@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Card, Col, DatePicker, Form, Input, Modal, Pagination, Row, Switch, Tag } from 'antd'
+import { Button, Card, Col, DatePicker, Input, Modal, Pagination, Row, Switch, Tag } from 'antd'
 import { Link } from 'react-router-dom'
 import { useRecoilValue } from 'recoil'
 import { appThemeSelector } from '../../recoil/commonState'
@@ -81,13 +81,7 @@ const HomePage = props => {
       {/*<RangePicker />*/}
 
 
-        <Form>
-          <Form.Item label={'test'}>
-            <div id={'test1'}>
-            <RangePicker getPopupContainer={() => document.getElementById('test1')} />
-            </div>
-          </Form.Item>
-        </Form>
+      <RangePicker />
 
 
       <Link to={'#'}>test this link</Link>

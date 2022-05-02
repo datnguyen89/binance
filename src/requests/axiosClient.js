@@ -10,12 +10,12 @@ import cypherUtil from '../utils/cypherUtil'
 import authStore from '../stores/authStore'
 
 const getUniqueId = () => {
-  let uniqueId = localStorage.getItem('UniqueId')
+  let uniqueId = localStorage.getItem('uniqueId')
   if (uniqueId) {
     return uniqueId
   } else {
     let newUniqueId = stringUtils.randomId(16)
-    localStorage.setItem('UniqueId', newUniqueId)
+    localStorage.setItem('uniqueId', newUniqueId)
     return newUniqueId
   }
 
@@ -50,7 +50,7 @@ axiosClient.interceptors.request.use(
       'DeviceType': 13,
       'SystemName': deviceDetect()?.osName,
       'SystemVersion': deviceDetect()?.osVersion,
-      'UniqueId': getUniqueId(),
+      'uniqueId': getUniqueId(),
       'DeviceName': deviceDetect()?.browserName,
     })
     // endregion

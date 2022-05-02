@@ -51,8 +51,29 @@ const LoginPage = props => {
         }
       })
   }
-  const handleOtp = () => {
+  const handleOtp = (e) => {
     console.log(extendData)
+    let payload = {
+      ExtendData: extendData,
+      ActiveCode: e.otp,
+      UserName: currPayload.UserName,
+      Password: currPayload.Password,
+      ClientId: 6,
+    }
+    authStore.activeDevice(payload)
+      .then(res => {
+        switch (res?.responseCode) {
+          case 0:
+            localStorage.setItem('refreshToken', res?.param?.refreshToken)
+            localStorage.setItem('accessToken', res?.param?.token)
+            setAccessToken(res?.param?.token)
+            navigate('/')
+            break
+
+          default:
+            break
+        }
+      })
   }
   // endregion
   // region function render ====================
