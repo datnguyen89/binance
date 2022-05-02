@@ -46,7 +46,7 @@ const ProtectedLayout = props => {
             <MainHeader />
           </Header>
 
-          <Content style={{ position: 'relative' }}>
+          <Content>
             <Outlet />
           </Content>
 
