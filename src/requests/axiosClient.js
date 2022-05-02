@@ -20,18 +20,18 @@ const getUniqueId = () => {
   }
 
 }
-let isRefreshing = false;
-let failedQueue = [];
+let isRefreshing = false
+let failedQueue = []
 const processQueue = (error, token = null) => {
   failedQueue.forEach(prom => {
     if (error) {
-      prom.reject(error);
+      prom.reject(error)
     } else {
-      prom.resolve(token);
+      prom.resolve(token)
     }
   })
 
-  failedQueue = [];
+  failedQueue = []
 }
 const axiosClient = axios.create({
   baseURL: config.apiUrl,
@@ -67,16 +67,17 @@ axiosClient.interceptors.request.use(
     }
     // endregion
     console.log('REQUEST', config.url.replace(config.apiUrl, ''), config.data)
+    // region Encrypted
     let k = stringUtils.randomId(16)
     let obj = { key: k, iv: k }
     let strDataKey = JSON.stringify(obj)
     let strData = JSON.stringify({ ...config.data })
     let encryptedDataKey = cypherUtil.rsaEncrypt(strDataKey)
     let encryptedData = cypherUtil.aesEncrypt(strData, k, k)
-
     if (!config.disabledEncrypted) {
       config.data = { data: encryptedData, objKey: encryptedDataKey }
     }
+    // endregion
     return config
   },
   error => {
@@ -120,23 +121,23 @@ axiosClient.interceptors.response.use(
             try {
               if (isRefreshing) {
                 return new Promise(function(resolve, reject) {
-                  failedQueue.push({resolve, reject})
+                  failedQueue.push({ resolve, reject })
                 }).then(token => {
-                  originalConfig.headers['Authorization'] = 'Bearer ' + token;
-                  return axios(originalConfig);
+                  originalConfig.headers['Authorization'] = 'Bearer ' + token
+                  return axios(originalConfig)
                 }).catch(err => {
-                  return Promise.reject(err);
+                  return Promise.reject(err)
                 })
               }
 
-              originalConfig._retry = true;
-              isRefreshing = true;
+              originalConfig._retry = true
+              isRefreshing = true
 
               console.log('Refresh token then retry')
-              authStore.refreshToken({RefreshToken: localStorage.getItem('refreshToken')})
+              authStore.refreshToken({ RefreshToken: localStorage.getItem('refreshToken') })
                 .then((res) => {
                   originalConfig.headers.Authorization = `Bearer ${res?.param}`
-                  processQueue(null, res?.param);
+                  processQueue(null, res?.param)
                   return axios(originalConfig)
                 })
                 .finally(() => {

@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react'
-import { Button, Card, Col, DatePicker, Form, Input, Pagination, Row, Switch, Tag } from 'antd'
+import React, { useEffect, useState } from 'react'
+import { Button, Card, Col, DatePicker, Form, Input, Modal, Pagination, Row, Switch, Tag } from 'antd'
 import { Link } from 'react-router-dom'
 import { useRecoilValue } from 'recoil'
 import { appThemeSelector } from '../../recoil/commonState'
@@ -13,7 +13,7 @@ const { RangePicker } = DatePicker
 const HomePage = props => {
   // region props, hook, state =================
   const appTheme = useRecoilValue(appThemeSelector)
-
+  const [isModalVisible, setIsModalVisible] = useState(false)
   // endregion
   // region destructuring ======================
 
@@ -45,6 +45,15 @@ const HomePage = props => {
     }
   }
 
+  const showModal = () => {
+    setIsModalVisible(true)
+  }
+  const handleOk = () => {
+    setIsModalVisible(false)
+  }
+  const handleCancel = () => {
+    setIsModalVisible(false)
+  }
   // endregion
   // region function render ====================
 
@@ -71,13 +80,15 @@ const HomePage = props => {
       <br />
       {/*<RangePicker />*/}
 
-      <div id={'test1'}>
+
         <Form>
           <Form.Item label={'test'}>
+            <div id={'test1'}>
             <RangePicker getPopupContainer={() => document.getElementById('test1')} />
+            </div>
           </Form.Item>
         </Form>
-      </div>
+
 
       <Link to={'#'}>test this link</Link>
       <Switch
@@ -107,6 +118,14 @@ const HomePage = props => {
         </Col>
       </Row>
       <br />
+      <Button type='primary' onClick={showModal}>
+        Open Modal
+      </Button>
+      <Modal title='Basic Modal' visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+        <p>Some contents...</p>
+        <p>Some contents...</p>
+        <p>Some contents...</p>
+      </Modal>
       <br />
       <br />
       <br />
