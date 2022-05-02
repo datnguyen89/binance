@@ -1,5 +1,5 @@
 const forge = require('node-forge')
-const { PUBLIC_KEY } = require('./constant')
+const { PUBLIC_KEY } = require('../constant')
 let CryptoJS = require('crypto-js')
 
 const cypherUtil = {

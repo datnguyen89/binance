@@ -1,5 +1,4 @@
 import moment from 'moment'
-import { LONG_DATE } from './constant'
 
 const dateUtils = {
   convertToMilliseconds: momentDate => {
@@ -17,7 +16,7 @@ const dateUtils = {
   convertToStrDate: (milliseconds, format) => {
     if (!milliseconds) return ''
     try {
-      return moment(Number(milliseconds)).format(format || LONG_DATE)
+      return moment(Number(milliseconds)).format(format || 'DD/MM/YYYY')
     } catch (e) {
       return ''
     }
