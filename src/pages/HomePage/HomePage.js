@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Button, Card, Col, DatePicker, Input, Pagination, Row, Switch, Tag } from 'antd'
+import { Button, Card, Col, DatePicker, Form, Input, Pagination, Row, Switch, Tag } from 'antd'
 import { Link } from 'react-router-dom'
 import { useRecoilValue } from 'recoil'
 import { appThemeSelector } from '../../recoil/commonState'
@@ -7,6 +7,8 @@ import { HomePageWrapper, TestBoxShadow } from './HomePageStyled'
 import productStore from '../../stores/productStore'
 import BorderBox from '../../components/BorderBox'
 import authStore from '../../stores/authStore'
+
+const { RangePicker } = DatePicker
 
 const HomePage = props => {
   // region props, hook, state =================
@@ -58,13 +60,24 @@ const HomePage = props => {
     <HomePageWrapper>
       <Button type={'primary'}>Hello</Button>
       <DatePicker format={'DD-MM-YYYY'} />
-      <DatePicker.RangePicker />
       <Pagination showSizeChanger />
       <Tag color='success'>success</Tag>
       <Tag color='processing'>processing</Tag>
       <Tag color='error'>error</Tag>
       <Tag color='warning'>warning</Tag>
       <Tag color='default'>default</Tag>
+      <DatePicker />
+      <br />
+      <br />
+      {/*<RangePicker />*/}
+
+      <div id={'test1'}>
+        <Form>
+          <Form.Item label={'test'}>
+            <RangePicker getPopupContainer={() => document.getElementById('test1')} />
+          </Form.Item>
+        </Form>
+      </div>
 
       <Link to={'#'}>test this link</Link>
       <Switch
@@ -93,6 +106,45 @@ const HomePage = props => {
 
         </Col>
       </Row>
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
     </HomePageWrapper>
   )
 }

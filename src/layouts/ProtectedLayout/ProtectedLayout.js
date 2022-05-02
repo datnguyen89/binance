@@ -5,6 +5,7 @@ import Sider from 'antd/es/layout/Sider'
 import { useThemeSwitcher } from 'react-css-theme-switcher'
 import MainHeader from '../../components/MainHeader'
 import MainSideBar from '../../components/MainSideBar'
+import { ProtectedLayoutWrapper } from './ProtectedLayoutStyled'
 
 const { Header, Content, Footer } = Layout
 
@@ -31,35 +32,33 @@ const ProtectedLayout = props => {
   // endregion
 
   return (
-    <Layout style={{ minHeight: '100vh' }}>
-      <Sider
-        theme={currentTheme}
-        collapsed={collapse}
-        onCollapse={(e) => setCollapse(e)}
-        collapsible>
-        <MainSideBar />
-        123
-      </Sider>
-      <Layout>
+    <ProtectedLayoutWrapper>
+      <Layout hasSider style={{ minHeight: '100vh' }}>
+        <Sider
+          theme={currentTheme}
+          collapsed={collapse}
+          onCollapse={(e) => setCollapse(e)}
+          collapsible>
+          <MainSideBar />
+        </Sider>
+        <Layout>
+          <Header className={'site-layout-background'}>
+            <MainHeader />
+          </Header>
 
-        <Header className={'site-layout-background'}>
-          <MainHeader />
-          123
-        </Header>
+          <Content style={{ position: 'relative' }}>
+            <Outlet />
+          </Content>
 
-        <Content>
-          <Outlet />
-        </Content>
-
-        <Footer>
-          Footer
-        </Footer>
+          <Footer>
+            Footer
+          </Footer>
+        </Layout>
       </Layout>
-    </Layout>
+    </ProtectedLayoutWrapper>
   )
 }
 
-ProtectedLayout.propTypes =
-  {}
+ProtectedLayout.propTypes = {}
 
 export default ProtectedLayout

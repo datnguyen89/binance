@@ -21,6 +21,12 @@ const ThemeProvider = props => {
   return (
     <ConfigProvider
       locale={viVN}
+      getPopupContainer={node => {
+        if (node) {
+          return node.parentNode
+        }
+        return document.body
+      }}
     >
       <ThemeSwitcherProvider
         themeMap={themes}
