@@ -33,6 +33,15 @@ const processQueue = (error, token = null) => {
 
   failedQueue = []
 }
+const handleEncrypted = (config) => {
+  let k = stringUtils.randomId(16)
+  let obj = { key: k, iv: k }
+  let strDataKey = JSON.stringify(obj)
+  let strData = JSON.stringify({ ...config.data })
+  let encryptedDataKey = cypherUtil.rsaEncrypt(strDataKey)
+  let encryptedData = cypherUtil.aesEncrypt(strData, k, k)
+  return { encryptedDataKey, encryptedData }
+}
 const axiosClient = axios.create({
   baseURL: config.apiUrl,
   headers: {
@@ -68,14 +77,9 @@ axiosClient.interceptors.request.use(
     // endregion
     console.log('REQUEST', config.url.replace(config.apiUrl, ''), config.data)
     // region Encrypted
-    let k = stringUtils.randomId(16)
-    let obj = { key: k, iv: k }
-    let strDataKey = JSON.stringify(obj)
-    let strData = JSON.stringify({ ...config.data })
-    let encryptedDataKey = cypherUtil.rsaEncrypt(strDataKey)
-    let encryptedData = cypherUtil.aesEncrypt(strData, k, k)
+    const encryptedObj = handleEncrypted(config)
     if (!config.disabledEncrypted) {
-      config.data = { data: encryptedData, objKey: encryptedDataKey }
+      config.data = { data: encryptedObj.encryptedData, objKey: encryptedObj.encryptedDataKey }
     }
     // endregion
     return config
@@ -122,12 +126,14 @@ axiosClient.interceptors.response.use(
               if (isRefreshing) {
                 return new Promise(function(resolve, reject) {
                   failedQueue.push({ resolve, reject })
-                }).then(token => {
-                  originalConfig.headers['Authorization'] = 'Bearer ' + token
-                  return axios(originalConfig)
-                }).catch(err => {
-                  return Promise.reject(err)
                 })
+                  .then(token => {
+                    originalConfig.headers['Authorization'] = 'Bearer ' + token
+                    return axios(originalConfig)
+                  })
+                  .catch(err => {
+                    return Promise.reject(err)
+                  })
               }
 
               originalConfig._retry = true
