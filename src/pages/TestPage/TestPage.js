@@ -9,7 +9,7 @@ import testStore from '../../stores/testStore'
 import {
   filterExecutionTypeState,
   listExecutionTypeState,
-  listExecutionTypeStateFiltered,
+  listExecutionTypeStateFiltered, myMultipliedState, myNumberState,
 } from '../../recoil/testState'
 import { PAGES } from '../../constant'
 
@@ -27,6 +27,10 @@ const TestPage = props => {
   const [filter, setFilter] = useRecoilState(filterExecutionTypeState)
   const resetFilter = useResetRecoilState(filterExecutionTypeState)
   const resetListExecutionType = useResetRecoilState(listExecutionTypeState)
+
+  const number = useRecoilValue(myNumberState)
+  const multipliedNumber = useRecoilValue(myMultipliedState(100))
+
   const {
     listNumberOfExecutionZero,
     listNumberOfExecutionAvailable,
@@ -49,6 +53,7 @@ const TestPage = props => {
     setFilter(newFilter)
     testStore.getListExecutionTypeGrouped()
   }
+
   // endregion
   // region function render ====================
 
@@ -134,6 +139,8 @@ const TestPage = props => {
           JSON.stringify(listNumberOfExecutionAvailable)
         }
       </div>
+      <div>{number}</div>
+      <div>{multipliedNumber}</div>
     </TestPageWrapper>
   )
 }

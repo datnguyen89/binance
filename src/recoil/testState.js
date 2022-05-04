@@ -1,4 +1,4 @@
-import { atom, selector } from 'recoil'
+import { atom, selector, selectorFamily } from 'recoil'
 import dateUtils from '../utils/dateUtils'
 import moment from 'moment'
 import request from '../requests/request'
@@ -30,3 +30,16 @@ export const listExecutionTypeStateFiltered = selector({
     }
   }
 })
+
+export const myNumberState = atom({
+  key: 'MyNumber',
+  default: 1,
+});
+
+export const myMultipliedState = selectorFamily({
+  key: 'MyMultipliedNumber',
+  get: (multiplier) => ({get}) => {
+    return get(myNumberState) * multiplier;
+  },
+
+});
