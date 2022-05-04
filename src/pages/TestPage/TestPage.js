@@ -6,7 +6,11 @@ import { productListState } from '../../recoil/productState'
 import { addToCart, cartState, cartTotalSelector } from '../../recoil/cartState'
 import { useLocation, useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import testStore from '../../stores/testStore'
-import { filterExecutionTypeState, listExecutionTypeState } from '../../recoil/testState'
+import {
+  filterExecutionTypeState,
+  listExecutionTypeState,
+  listExecutionTypeStateFiltered,
+} from '../../recoil/testState'
 import { PAGES } from '../../constant'
 
 const TestPage = props => {
@@ -20,9 +24,13 @@ const TestPage = props => {
   const resetCard = useResetRecoilState(cartState)
   const total = useRecoilValue(cartTotalSelector)
   const listExecutionType = useRecoilValue(listExecutionTypeState)
-  const [filter,setFilter] = useRecoilState(filterExecutionTypeState)
+  const [filter, setFilter] = useRecoilState(filterExecutionTypeState)
   const resetFilter = useResetRecoilState(filterExecutionTypeState)
   const resetListExecutionType = useResetRecoilState(listExecutionTypeState)
+  const {
+    listNumberOfExecutionZero,
+    listNumberOfExecutionAvailable,
+  } = useRecoilValue(listExecutionTypeStateFiltered)
   // endregion
   // region destructuring ======================
 
@@ -36,7 +44,7 @@ const TestPage = props => {
     setCart(newCart)
   }
   const handleClickFilter = () => {
-    let newFilter = {...filter}
+    let newFilter = { ...filter }
     newFilter.Status = -2
     setFilter(newFilter)
     testStore.getListExecutionTypeGrouped()
@@ -112,6 +120,18 @@ const TestPage = props => {
       <div>
         {
           JSON.stringify(listExecutionType)
+        }
+      </div>
+      <br />
+      <div>
+        {
+          JSON.stringify(listNumberOfExecutionZero)
+        }
+      </div>
+      <br />
+      <div>
+        {
+          JSON.stringify(listNumberOfExecutionAvailable)
         }
       </div>
     </TestPageWrapper>

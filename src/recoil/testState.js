@@ -18,3 +18,15 @@ export const listExecutionTypeState = atom({
   key: 'listExecutionTypeState',
   default: null,
 })
+export const listExecutionTypeStateFiltered = selector({
+  key: 'listExecutionTypeStateFiltered',
+  get: ({get}) => {
+    const list = get(listExecutionTypeState)
+    const listNumberOfExecutionZero = list && list.filter(item => item.NumberOfExecution === 0)
+    const listNumberOfExecutionAvailable = list && list.filter(item => item.NumberOfExecution !== 0)
+    return {
+      listNumberOfExecutionZero,
+      listNumberOfExecutionAvailable
+    }
+  }
+})
