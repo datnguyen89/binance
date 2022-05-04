@@ -1,14 +1,18 @@
 import request from '../requests/request'
 import { setRecoil } from 'recoil-nexus'
-import { accessTokenState } from '../recoil/authState'
+import { accessTokenState, refreshTokenState } from '../recoil/authState'
 
 const authStore = {
   loginCustomerWebApplication: data => {
     return new Promise((resolve, reject) => {
       const url = '/LoginCustomerWebApplication'
       request.post(url, data, false, false)
-        .then(response => {
-          resolve(response)
+        .then(res => {
+          localStorage.setItem('refreshToken', res?.param?.refreshToken)
+          localStorage.setItem('accessToken', res?.param?.token)
+          setRecoil(refreshTokenState,res?.param?.refreshToken)
+          setRecoil(accessTokenState,res?.param?.token)
+          resolve(res)
         })
         .catch(error => {
           reject(error)
@@ -19,10 +23,10 @@ const authStore = {
     return new Promise((resolve, reject) => {
       const url = '/RefreshToken'
       request.post(url, data, false, false)
-        .then(response => {
-          localStorage.setItem('accessToken', response?.param)
-          setRecoil(accessTokenState, response?.param)
-          resolve(response)
+        .then(res => {
+          localStorage.setItem('accessToken', res?.param)
+          setRecoil(accessTokenState, res?.param)
+          resolve(res)
         })
         .catch(error => {
           reject(error)
@@ -33,38 +37,17 @@ const authStore = {
     return new Promise((resolve, reject) => {
       const url = '/ActiveDevice'
       request.post(url, data, false, false)
-        .then(response => {
-          resolve(response)
+        .then(res => {
+          localStorage.setItem('refreshToken', res?.param?.refreshToken)
+          localStorage.setItem('accessToken', res?.param?.token)
+          setRecoil(refreshTokenState,res?.param?.refreshToken)
+          setRecoil(accessTokenState,res?.param?.token)
+          resolve(res)
         })
         .catch(error => {
           reject(error)
         })
     })
   },
-  getCommonProperty: () => {
-    return new Promise((resolve, reject) => {
-      const url = '/GetCommonProperty'
-      request.get(url, null, false, false)
-        .then(response => {
-          resolve(response)
-        })
-        .catch(error => {
-          reject(error)
-        })
-    })
-  },
-  getUserProfile: () => {
-    return new Promise((resolve, reject) => {
-      const url = '/GetUserProfile'
-      request.get(url, null, false, false)
-        .then(response => {
-          resolve(response)
-        })
-        .catch(error => {
-          reject(error)
-        })
-    })
-  },
-
 }
 export default authStore

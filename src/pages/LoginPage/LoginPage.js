@@ -2,13 +2,10 @@ import React, { useEffect, useState } from 'react'
 import { Button, Form, Input } from 'antd'
 import authStore from '../../stores/authStore'
 import { useNavigate } from 'react-router-dom'
-import { useSetRecoilState } from 'recoil'
-import { accessTokenState } from '../../recoil/authState'
 
 const LoginPage = props => {
   // region props, hook, state =================
   const navigate = useNavigate()
-  const setAccessToken = useSetRecoilState(accessTokenState)
   const [formLogin] = Form.useForm()
 
   const [visibleOtp, setVisibleOtp] = useState(false)
@@ -34,11 +31,7 @@ const LoginPage = props => {
       .then(res => {
         switch (res?.responseCode) {
           case 0:
-            localStorage.setItem('refreshToken', res?.param?.refreshToken)
-            localStorage.setItem('accessToken', res?.param?.token)
-            setAccessToken(res?.param?.token)
             navigate('/')
-
             break
           case -52:
             let newPayload = { ...payload, description: res?.description }
@@ -64,9 +57,6 @@ const LoginPage = props => {
       .then(res => {
         switch (res?.responseCode) {
           case 0:
-            localStorage.setItem('refreshToken', res?.param?.refreshToken)
-            localStorage.setItem('accessToken', res?.param?.token)
-            setAccessToken(res?.param?.token)
             navigate('/')
             break
 

@@ -2,7 +2,7 @@ import React from 'react'
 import viVN from 'antd/lib/locale/vi_VN'
 import moment from 'moment'
 import 'moment/locale/vi'
-import { ConfigProvider } from 'antd'
+import { ConfigProvider, notification } from 'antd'
 import { ThemeSwitcherProvider } from 'react-css-theme-switcher'
 import { useRecoilValue } from 'recoil'
 import { isDarkState } from '../recoil/commonState'
@@ -13,6 +13,13 @@ const themes = {
   light: `${process.env.PUBLIC_URL}/light-theme.css`,
 }
 moment.locale('vi')
+
+notification.config({
+  duration: 5,
+  top: 60,
+  maxCount: 1,
+  placement: 'top',
+})
 
 const ThemeProvider = props => {
   const { children } = props

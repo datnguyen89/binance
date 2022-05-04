@@ -4,7 +4,9 @@ import './App.less'
 import LoadingOverLay from './components/LoadingOverLay'
 // endregion
 // region Router
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { Route, Routes } from 'react-router-dom'
+import history from './customRouter/history'
+import CustomRouter from './customRouter/CustomRouter'
 // endregion
 // region Pages
 import { PAGES } from './constant'
@@ -20,7 +22,7 @@ import TestPage from './pages/TestPage'
 const App = () => {
   return (
     <>
-      <BrowserRouter>
+      <CustomRouter history={history}>
         <Routes>
           <Route element={<AuthenticationLayout />}>
             <Route path={PAGES.LOGIN} element={<LoginPage />} />
@@ -31,7 +33,7 @@ const App = () => {
           </Route>
           <Route path='*' element={<NotFoundPage />} />
         </Routes>
-      </BrowserRouter>
+      </CustomRouter>
       <LoadingOverLay />
     </>
   )
