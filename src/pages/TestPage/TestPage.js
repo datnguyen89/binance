@@ -1,19 +1,28 @@
 import React, { useEffect } from 'react'
 import { TestPageWrapper } from './TestPageStyled'
-import { useRecoilState, useRecoilValue } from 'recoil'
+import { useRecoilState, useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil'
 import { Button, Col, Row } from 'antd'
 import { productListState } from '../../recoil/productState'
 import { addToCart, cartState, cartTotalSelector } from '../../recoil/cartState'
-import { useLocation, useParams, useSearchParams } from 'react-router-dom'
+import { useLocation, useNavigate, useParams, useSearchParams } from 'react-router-dom'
+import testStore from '../../stores/testStore'
+import { filterExecutionTypeState, listExecutionTypeState } from '../../recoil/testState'
+import { PAGES } from '../../constant'
 
 const TestPage = props => {
   // region props, hook, state =================
+  const navigate = useNavigate()
   let [urlSearchParams] = useSearchParams()
   const location = useLocation()
   let urlParams = useParams()
   const productList = useRecoilValue(productListState)
   const [cart, setCart] = useRecoilState(cartState)
+  const resetCard = useResetRecoilState(cartState)
   const total = useRecoilValue(cartTotalSelector)
+  const listExecutionType = useRecoilValue(listExecutionTypeState)
+  const [filter,setFilter] = useRecoilState(filterExecutionTypeState)
+  const resetFilter = useResetRecoilState(filterExecutionTypeState)
+  const resetListExecutionType = useResetRecoilState(listExecutionTypeState)
   // endregion
   // region destructuring ======================
 
@@ -25,6 +34,12 @@ const TestPage = props => {
   const handleAddToCart = (product) => {
     const newCart = addToCart(cart, product)
     setCart(newCart)
+  }
+  const handleClickFilter = () => {
+    let newFilter = {...filter}
+    newFilter.Status = -2
+    setFilter(newFilter)
+    testStore.getListExecutionTypeGrouped()
   }
   // endregion
   // region function render ====================
@@ -43,6 +58,18 @@ const TestPage = props => {
     // http://localhost:3009/test?id=123
     console.log('urlParams', urlParams)
   }, [urlParams])
+
+  useEffect(() => {
+    testStore.getUserProfile()
+    testStore.getListExecutionTypeGrouped()
+    testStore.getCommonProperty()
+  }, [])
+  useEffect(() => {
+    return () => {
+      resetFilter()
+      resetListExecutionType()
+    }
+  }, [])
 
   // endregion
   return (
@@ -65,6 +92,7 @@ const TestPage = props => {
         )
       }
       <h1>CartList: {total} VND</h1>
+      <Button onClick={() => resetCard()}>Reset</Button>
       <ul>
         {
           cart.map(item =>
@@ -74,7 +102,18 @@ const TestPage = props => {
           )
         }
       </ul>
-
+      <div>
+        {
+          JSON.stringify(filter)
+        }
+      </div>
+      <Button onClick={() => navigate(PAGES.TEST_CLONE)}>Go to test clone</Button>
+      <Button onClick={handleClickFilter}>Chua duyet</Button>
+      <div>
+        {
+          JSON.stringify(listExecutionType)
+        }
+      </div>
     </TestPageWrapper>
   )
 }

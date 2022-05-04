@@ -31,7 +31,7 @@ const App = () => {
           <Route element={<ProtectedLayout />}>
             <Route path={PAGES.HOME} element={<HomePage />} />
             <Route path={PAGES.TEST} element={<TestPage />}>
-              <Route path=":name" element={<TestPage />} />
+              <Route path=":id" element={<TestPage />} />
             </Route>
             <Route path={PAGES.TEST_CLONE} element={<TestPageClone />} />
           </Route>

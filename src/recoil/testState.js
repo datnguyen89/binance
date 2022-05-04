@@ -1,0 +1,20 @@
+import { atom, selector } from 'recoil'
+import dateUtils from '../utils/dateUtils'
+import moment from 'moment'
+import request from '../requests/request'
+import testStore from '../stores/testStore'
+
+export const filterExecutionTypeState = atom({
+  key: 'filterExecutionTypeState',
+  default: {
+    Status: null,
+    CreatedFrom: dateUtils.convertToMillisecondsStartOfDay(moment().add(-30, 'days')),
+    CreatedTo: dateUtils.convertToMillisecondsEndOfDay(moment()),
+    Keyword: '',
+    DeptID: 'E0200456505.BGD',
+  },
+})
+export const listExecutionTypeState = atom({
+  key: 'listExecutionTypeState',
+  default: null,
+})

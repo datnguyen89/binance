@@ -10,6 +10,7 @@ import { appLoadingState } from '../recoil/commonState'
 import stringUtils from '../utils/stringUtils'
 import cypherUtil from '../utils/cypherUtil'
 import authStore from '../stores/authStore'
+import { PAGES } from '../constant'
 
 const getUniqueId = () => {
   let uniqueId = localStorage.getItem('uniqueId')
@@ -32,7 +33,6 @@ const processQueue = (error, token = null) => {
       prom.resolve(token)
     }
   })
-
   failedQueue = []
 }
 const handleEncrypted = (request) => {
@@ -43,6 +43,13 @@ const handleEncrypted = (request) => {
   let encryptedDataKey = cypherUtil.rsaEncrypt(strDataKey)
   let encryptedData = cypherUtil.aesEncrypt(strData, k, k)
   return { encryptedDataKey, encryptedData }
+}
+const handleRefreshTokenFail = () => {
+  notification.error({
+    message: 'Cảnh báo',
+    description: 'Phiên đăng nhập hết hạn',
+  })
+  history.push(PAGES.LOGIN)
 }
 const axiosClient = axios.create({
   baseURL: config.apiUrl,
@@ -72,8 +79,9 @@ axiosClient.interceptors.request.use(
     }
     // endregion
     // region Retry
+    // console.log('originalRequest._retry ', request.url, request._retry)
     if (request._retry) {
-      // Nếu là retry sau khi refresh token thì cho đi luôn vì đã mã hóa rồi
+      // console.log('Nếu là retry sau khi refresh token thì cho đi luôn vì đã mã hóa rồi')
       return request
     }
     // endregion
@@ -123,10 +131,10 @@ axiosClient.interceptors.response.use(
     } else {
       switch (error?.response?.status) {
         case 401:
-          console.log(originalRequest._retry)
           if (!originalRequest._retry) {
             try {
               if (isRefreshing) {
+                originalRequest._retry = true
                 return new Promise(function(resolve, reject) {
                   failedQueue.push({ resolve, reject })
                 })
@@ -138,7 +146,6 @@ axiosClient.interceptors.response.use(
                     return Promise.reject()
                   })
               }
-
               originalRequest._retry = true
               isRefreshing = true
 
@@ -150,11 +157,7 @@ axiosClient.interceptors.response.use(
                       processQueue(null, res?.param)
                       resolve(axiosClient(originalRequest))
                     } else {
-                      notification.error({
-                        message: 'Cảnh báo',
-                        description: res?.description,
-                      })
-                      history.push('/login')
+                      handleRefreshTokenFail()
                     }
                   })
                   .catch(error => {
@@ -166,19 +169,11 @@ axiosClient.interceptors.response.use(
                   })
               })
             } catch (error) {
-              notification.error({
-                message: 'Cảnh báo',
-                description: error?.message,
-              })
-              history.push('/login')
+              handleRefreshTokenFail()
               return Promise.reject(error)
             }
           } else {
-            notification.error({
-              message: 'Cảnh báo',
-              description: error?.message,
-            })
-            history.push('/login')
+            handleRefreshTokenFail()
           }
           break
         default:
