@@ -16,6 +16,7 @@ import LoginPage from './pages/LoginPage'
 import ProtectedLayout from './layouts/ProtectedLayout'
 import AuthenticationLayout from './layouts/AuthenticationLayout'
 import TestPage from './pages/TestPage'
+import TestPageClone from './pages/TestPageClone'
 
 
 // endregion
@@ -29,7 +30,10 @@ const App = () => {
           </Route>
           <Route element={<ProtectedLayout />}>
             <Route path={PAGES.HOME} element={<HomePage />} />
-            <Route path={PAGES.TEST} element={<TestPage />} />
+            <Route path={PAGES.TEST} element={<TestPage />}>
+              <Route path=":name" element={<TestPage />} />
+            </Route>
+            <Route path={PAGES.TEST_CLONE} element={<TestPageClone />} />
           </Route>
           <Route path='*' element={<NotFoundPage />} />
         </Routes>

@@ -3,6 +3,7 @@ export const PAGES = {
   HOME: '/',
   LOGIN: '/login',
   TEST: '/test',
+  TEST_CLONE: '/test-clone',
 }
 // endregion
 // region theme

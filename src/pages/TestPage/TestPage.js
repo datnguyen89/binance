@@ -1,12 +1,16 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { TestPageWrapper } from './TestPageStyled'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import { Button, Col, Row } from 'antd'
 import { productListState } from '../../recoil/productState'
 import { addToCart, cartState, cartTotalSelector } from '../../recoil/cartState'
+import { useLocation, useParams, useSearchParams } from 'react-router-dom'
 
 const TestPage = props => {
   // region props, hook, state =================
+  let [urlSearchParams] = useSearchParams()
+  const location = useLocation()
+  let urlParams = useParams()
   const productList = useRecoilValue(productListState)
   const [cart, setCart] = useRecoilState(cartState)
   const total = useRecoilValue(cartTotalSelector)
@@ -27,6 +31,18 @@ const TestPage = props => {
 
   // endregion
   // region side effect ========================
+  useEffect(() => {
+    // http://localhost:3009/test?id=123
+    console.log('urlSearchParams', urlSearchParams.get('id'))
+  }, [urlSearchParams])
+  useEffect(() => {
+    // http://localhost:3009/test?id=123
+    console.log('location', location)
+  }, [location])
+  useEffect(() => {
+    // http://localhost:3009/test?id=123
+    console.log('urlParams', urlParams)
+  }, [urlParams])
 
   // endregion
   return (
