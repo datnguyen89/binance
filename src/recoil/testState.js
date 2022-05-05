@@ -1,8 +1,6 @@
 import { atom, selector, selectorFamily } from 'recoil'
 import dateUtils from '../utils/dateUtils'
 import moment from 'moment'
-import request from '../requests/request'
-import testStore from '../stores/testStore'
 
 export const filterExecutionTypeState = atom({
   key: 'filterExecutionTypeState',

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { TestPageWrapper } from './TestPageStyled'
-import { useRecoilState, useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil'
+import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil'
 import { Button, Col, Row } from 'antd'
 import { productListState } from '../../recoil/productState'
 import { addToCart, cartState, cartTotalSelector } from '../../recoil/cartState'
@@ -9,7 +9,9 @@ import testStore from '../../stores/testStore'
 import {
   filterExecutionTypeState,
   listExecutionTypeState,
-  listExecutionTypeStateFiltered, myMultipliedState, myNumberState,
+  listExecutionTypeStateFiltered,
+  myMultipliedState,
+  myNumberState,
 } from '../../recoil/testState'
 import { PAGES } from '../../constant'
 
