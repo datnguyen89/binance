@@ -115,7 +115,7 @@ const LoginPage = props => {
           wrapperCol={{ span: 24 }}
           colon={false}
         >
-          <a href={'http://10.10.180.51:7890/makiemtra?mobile=0904578082'}>Lấy otp</a>
+          <a href={'http://10.10.180.51:7890/makiemtra?mobile=0904578082'} target={'_blank'}>Lấy otp</a>
           <Form.Item
             name={'otp'}
             label={currPayload?.description}>
