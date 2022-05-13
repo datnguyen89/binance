@@ -111,10 +111,11 @@ const LoginPage = props => {
         <Form
           labelAlign={'left'}
           onFinish={handleOtp}
-          labelCol={{ span: 8 }}
-          wrapperCol={{ span: 16 }}
+          labelCol={{ span: 24 }}
+          wrapperCol={{ span: 24 }}
           colon={false}
         >
+          <a href={'http://10.10.180.51:7890/makiemtra?mobile=0904578082'}>Lấy otp</a>
           <Form.Item
             name={'otp'}
             label={currPayload?.description}>

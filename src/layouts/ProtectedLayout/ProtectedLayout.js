@@ -1,18 +1,22 @@
-import React, { useState } from 'react'
-import { Outlet } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { Outlet, useNavigate } from 'react-router-dom'
 import { Layout } from 'antd'
 import Sider from 'antd/es/layout/Sider'
 import { useThemeSwitcher } from 'react-css-theme-switcher'
 import MainHeader from '../../components/MainHeader'
 import MainSideBar from '../../components/MainSideBar'
 import { ProtectedLayoutWrapper } from './ProtectedLayoutStyled'
+import { accessTokenState } from '../../recoil/authState'
+import { useRecoilValue } from 'recoil'
+import { PAGES } from '../../constant'
 
 const { Header, Content, Footer } = Layout
 
 const ProtectedLayout = props => {
   // region props, hook, state =================
   const { currentTheme } = useThemeSwitcher()
-
+  let navigate = useNavigate()
+  const accessToken = useRecoilValue(accessTokenState)
   const [collapse, setCollapse] = useState(false)
   // endregion
   // region destructuring ======================
@@ -28,7 +32,11 @@ const ProtectedLayout = props => {
 
   // endregion
   // region side effect ========================
-
+  useEffect(() => {
+    if (!accessToken) {
+      navigate(PAGES.LOGIN)
+    }
+  }, [accessToken])
   // endregion
 
   return (
